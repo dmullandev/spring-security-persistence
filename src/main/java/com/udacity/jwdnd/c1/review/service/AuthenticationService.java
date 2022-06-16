@@ -1,12 +1,15 @@
 package com.udacity.jwdnd.c1.review.service;
 
+import java.util.ArrayList;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import com.udacity.jwdnd.c1.review.data.UserMapper;
+import com.udacity.jwdnd.c1.review.mapper.UserMapper;
+import com.udacity.jwdnd.c1.review.model.User;
 
 @Service
 public class AuthenticationService implements AuthenticationProvider {
@@ -23,9 +26,14 @@ public class AuthenticationService implements AuthenticationProvider {
 		String username = authentication.getName();
 		String password = authentication.getCredentials().toString();
 
-		/*
-		 * User user = userMapper.getUser(username); if (user != null) { String }
-		 */
+		User user = userMapper.getUser(username);
+		if (user != null) {
+			String encodedSalt = user.getSalt();
+			String hashedPassword = hashService.getHashedValue(password, encodedSalt);
+			if (user.getPassword().equals(hashedPassword)) {
+				return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
+			}
+		}
 
 		return null;
 	}
@@ -34,5 +42,4 @@ public class AuthenticationService implements AuthenticationProvider {
 	public boolean supports(Class<?> authentication) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
-
 }

@@ -21,7 +21,7 @@ public class ChatMessage {
 		this.username = username;
 	}
 
-	public String getMessagetext() {
+	public String getMessage() {
 		return message;
 	}
 
