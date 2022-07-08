@@ -34,17 +34,35 @@ public class LoginPage {
 		inputUsername.sendKeys(username);
 	}
 
+	public String getDisplayedUsername() {
+		// return inputPassword.getText();
+		return inputUsername.getAttribute("value");
+	}
+
 	public void setPassword(String password) {
 		inputPassword.clear();
 		inputPassword.sendKeys(password);
 	}
 
-	public boolean isError() {
-		return alertError.isDisplayed();
+	public String getDisplayedPassword() {
+		// return inputPassword.getText();
+		return inputPassword.getAttribute("value");
+	}
+
+	public boolean isLoginError() {
+		try {
+			return alertError.isDisplayed();
+		} catch (org.openqa.selenium.NoSuchElementException e) {
+			return false;
+		}
 	}
 
 	public boolean isLoggedout() {
-		return alertLogout.isDisplayed();
+		try {
+			return alertLogout.isDisplayed();
+		} catch (org.openqa.selenium.NoSuchElementException e) {
+			return false;
+		}
 	}
 
 	public void clickSignupLink() {

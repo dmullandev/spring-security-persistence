@@ -14,7 +14,7 @@ public class ChatPage {
 	private WebElement inputMessage;
 
 	@FindBy(id = "messageType")
-	private Select inputMessageType;
+	private WebElement selectMessageType;
 
 	@FindBy(id = "submitMessage")
 	private WebElement submitButton;
@@ -31,16 +31,32 @@ public class ChatPage {
 		inputMessage.sendKeys(message);
 	}
 
+	public String getDisplayedMessageText() {
+		// return inputPassword.getText();
+		return inputMessage.getAttribute("value");
+	}
+
 	public void setMessageType(String type) {
-		inputMessageType.selectByValue(type);
+		Select selectObj = new Select(selectMessageType);
+		selectObj.selectByValue(type);
+	}
+
+	public String getDisplayedMessageType() {
+		Select selectObj = new Select(selectMessageType);
+		return selectObj.getFirstSelectedOption().getText();
 	}
 
 	public void clickSubmitButton() {
 		submitButton.click();
+
+		// reset back to Say
+		Select selectObj = new Select(selectMessageType);
+		selectObj.selectByValue("Say");
 	}
 
 	public int getChatEntries() {
-		return chatUsernameOutput.size();
+		// half due to double span in div, correct use is xpath over tagname here
+		return chatUsernameOutput.size() / 2;
 	}
 
 }

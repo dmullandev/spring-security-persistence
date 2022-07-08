@@ -37,7 +37,13 @@ public class SignupPage {
 
 	public void setFirstName(String firstName) {
 		inputFirstName.clear();
+		inputFirstName.click();
 		inputFirstName.sendKeys(firstName);
+	}
+
+	public String getDisplayedFirstName() {
+		// return inputFirstName.getText();
+		return inputFirstName.getAttribute("value");
 	}
 
 	public void setLastName(String lastName) {
@@ -45,9 +51,19 @@ public class SignupPage {
 		inputLastName.sendKeys(lastName);
 	}
 
+	public String getDisplayedLastName() {
+		// return inputLastName.getText();
+		return inputLastName.getAttribute("value");
+	}
+
 	public void setUsername(String username) {
 		inputUsername.clear();
 		inputUsername.sendKeys(username);
+	}
+
+	public String getDisplayedUsername() {
+		// return inputUsername.getText();
+		return inputUsername.getAttribute("value");
 	}
 
 	public void setPassword(String password) {
@@ -55,12 +71,25 @@ public class SignupPage {
 		inputPassword.sendKeys(password);
 	}
 
-	public boolean isSuccess() {
-		return alertSuccess.isDisplayed();
+	public String getDisplayedPassword() {
+		// return inputPassword.getText();
+		return inputPassword.getAttribute("value");
 	}
 
-	public boolean isError() {
-		return alertError.isDisplayed();
+	public boolean isSignupSuccess() {
+		try {
+			return alertSuccess.isDisplayed();
+		} catch (org.openqa.selenium.NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	public boolean isSignupError() {
+		try {
+			return alertError.isDisplayed();
+		} catch (org.openqa.selenium.NoSuchElementException e) {
+			return false;
+		}
 	}
 
 	public void clickBackToLogin() {
